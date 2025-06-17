@@ -2,29 +2,32 @@
 Preexamen
 
 
-#CODIGO
-~~~#include <Servo.h>
+#CODIGO PARA SERVO 1 , 2 y 3
+~~~
+#include <Servo.h>
 
-Servo servoPinza;
-const int potPinPinza = A0;
-const int servoPinPinza = 11;
+Servo servoBase;
+const int potPinBase = A0;
+const int servoPinBase = 9;
 
 void setup() {
-  servoPinza.attach(servoPinPinza);
-  servoPinza.write(90);  // Posición semi-abierta
-  delay(1500);           // Más tiempo para pinza
+  servoBase.attach(servoPinBase);
+  servoBase.write(90);  // Posición inicial a 90°
+  delay(1000);          // Tiempo para estabilizar
   Serial.begin(9600);
 }
 
 void loop() {
-  int lectura = analogRead(potPinPinza);
-  int angulo = map(lectura, 0, 1023, 60, 120); // Rango ajustado para pinza
+  int lectura = analogRead(potPinBase);
+  int angulo = map(lectura, 0, 1023, 0, 180);
   
-  // Movimiento progresivo
-  static int anguloObjetivo = 90;
-  if(abs(angulo - anguloObjetivo) > 1) {
-    anguloObjetivo += (angulo > anguloObjetivo) ? 1 : -1;
-    servoPinza.write(anguloObjetivo);
-    delay(30); // Velocidad controlada
+  // Filtro para reducir vibraciones
+  static int anguloAnterior = 90;
+  if(abs(angulo - anguloAnterior) > 2) {
+    servoBase.write(angulo);
+    anguloAnterior = angulo;
   }
-}~~~
+  
+  delay(15);
+}
+~~~
