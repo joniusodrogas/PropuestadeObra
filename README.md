@@ -2,7 +2,7 @@
 Preexamen
 
 
-#CODIGO PARA SERVO 1 , 2 y 3
+# CODIGO PARA SERVO 1 , 2 y 3
 ~~~
 #include <Servo.h>
 
